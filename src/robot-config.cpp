@@ -14,6 +14,7 @@ controller Controller1 = controller(primary);
 bumper BumperB = bumper(Brain.ThreeWirePort.B);
 digital_out LaunchPiston = digital_out(Brain.ThreeWirePort.A);
 encoder LeftFlyEncoder = encoder(Brain.ThreeWirePort.C);
+encoder RightFlyEncoder = encoder(Brain.ThreeWirePort.E);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
