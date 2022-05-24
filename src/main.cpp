@@ -23,27 +23,25 @@
 #include <iostream>
 
 using namespace vex;
-
-void RPMValue(){
-     int LeftFlySpeed = LeftFlyEncoder.velocity(rpm);
-     int RightFlySpeed = RightFlyEncoder.velocity(rpm);
+int Time = 0;
+bool Spinning = false;
+int LeftFlySpeed = LeftFlyEncoder.velocity(rpm);
+int RightFlySpeed = RightFlyEncoder.velocity(rpm);
+int AbsoluteRightFlySpeed = abs(RightFlySpeed);
+int AbsoluteLeftFlySpeed = abs(LeftFlySpeed);
+void RPMValue(int repeatinterval){
      using namespace std;
-     cout <<"Current RPM: Left:" << LeftFlySpeed << " | Right:" << RightFlySpeed << "\n";
-    wait(0.1, sec);
+     cout << Time << " Left: " << LeftFlySpeed << " Right: " << RightFlySpeed << "\n";
+    wait(repeatinterval, msec);
+     Time += repeatinterval;
 }
-
-int main() {
-  // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
-  while(true){
-    if(BumperB.pressing()){
+void FlyControl(int leftflyrpm, int rightflyrpm){
+      if(BumperB.pressing()){
       LaunchPiston.set(true);
-      wait(50,msec);
+      wait(200,msec);
       LaunchPiston.set(false);
     }
     if(Controller1.ButtonA.pressing()){
-      int leftflyrpm = 100; 
-      int rightflyrpm = 100;
       LeftFlyMotor.setVelocity(leftflyrpm, rpm);
       RightFlyMotor.setVelocity(rightflyrpm, rpm);
       LeftFlyMotor.spin(forward);
@@ -52,11 +50,25 @@ int main() {
     if(Controller1.ButtonB.pressing()){
       LeftFlyMotor.stop();
       RightFlyMotor.stop();
+      wait(5, sec);
     }
-    if(Controller1.ButtonX.pressing()){
-     // Brain.SDcard.savefile("test.h", txt,);
-    }
-   RPMValue(); 
+}
+int main() {
+  // Initializing Robot Configuration. DO NOT REMOVE!
+
+  vexcodeInit();
+  while(true){
+   FlyControl(200, 200); //Left RPM, Right RPM
+   int AverageFlyRPM = (AbsoluteRightFlySpeed + AbsoluteLeftFlySpeed) / 2;
+   if(AverageFlyRPM < 1){
+     Spinning = false;
+   }
+   else if(AverageFlyRPM > 1){
+     Spinning = true;
+   }
+   if(Spinning == true){
+    RPMValue(25); //In Milisecends
+   }
   }
   
 }

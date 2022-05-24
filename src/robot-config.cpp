@@ -13,7 +13,7 @@ motor RightFlyMotor = motor(PORT2, ratio18_1, false);
 controller Controller1 = controller(primary);
 bumper BumperB = bumper(Brain.ThreeWirePort.B);
 digital_out LaunchPiston = digital_out(Brain.ThreeWirePort.A);
-rotation LeftFlyEncoder = rotation(PORT3, false);
+rotation LeftFlyEncoder = rotation(PORT3, true);
 rotation RightFlyEncoder = rotation(PORT4, true);
 
 // VEXcode generated functions
