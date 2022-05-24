@@ -8,13 +8,13 @@ using code = vision::code;
 brain  Brain;
 
 // VEXcode device constructors
-motor LeftFlyMotor = motor(PORT1, ratio6_1, false);
-motor RightFlyMotor = motor(PORT2, ratio6_1, false);
+motor LeftFlyMotor = motor(PORT1, ratio18_1, true);
+motor RightFlyMotor = motor(PORT2, ratio18_1, false);
 controller Controller1 = controller(primary);
 bumper BumperB = bumper(Brain.ThreeWirePort.B);
 digital_out LaunchPiston = digital_out(Brain.ThreeWirePort.A);
-encoder LeftFlyEncoder = encoder(Brain.ThreeWirePort.C);
-encoder RightFlyEncoder = encoder(Brain.ThreeWirePort.E);
+rotation LeftFlyEncoder = rotation(PORT3, false);
+rotation RightFlyEncoder = rotation(PORT4, true);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

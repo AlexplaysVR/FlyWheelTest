@@ -15,8 +15,8 @@
 // Controller1          controller                    
 // BumperB              bumper        B               
 // LaunchPiston         digital_out   A               
-// LeftFlyEncoder       encoder       C, D            
-// RightFlyEncoder      encoder       E, F            
+// LeftFlyEncoder       rotation      3               
+// RightFlyEncoder      rotation      4               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -28,7 +28,8 @@ void RPMValue(){
      int LeftFlySpeed = LeftFlyEncoder.velocity(rpm);
      int RightFlySpeed = RightFlyEncoder.velocity(rpm);
      using namespace std;
-     cout <<"Current RPM: Left:" << LeftFlySpeed << " | Right:" << RightFlySpeed;
+     cout <<"Current RPM: Left:" << LeftFlySpeed << " | Right:" << RightFlySpeed << "\n";
+    wait(0.1, sec);
 }
 
 int main() {
@@ -37,12 +38,12 @@ int main() {
   while(true){
     if(BumperB.pressing()){
       LaunchPiston.set(true);
-      wait(25,msec);
+      wait(50,msec);
       LaunchPiston.set(false);
     }
     if(Controller1.ButtonA.pressing()){
-      int leftflyrpm = 600; 
-      int rightflyrpm = 600;
+      int leftflyrpm = 100; 
+      int rightflyrpm = 100;
       LeftFlyMotor.setVelocity(leftflyrpm, rpm);
       RightFlyMotor.setVelocity(rightflyrpm, rpm);
       LeftFlyMotor.spin(forward);
@@ -51,6 +52,9 @@ int main() {
     if(Controller1.ButtonB.pressing()){
       LeftFlyMotor.stop();
       RightFlyMotor.stop();
+    }
+    if(Controller1.ButtonX.pressing()){
+     // Brain.SDcard.savefile("test.h", txt,);
     }
    RPMValue(); 
   }
