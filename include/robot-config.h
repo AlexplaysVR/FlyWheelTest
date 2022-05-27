@@ -6,10 +6,12 @@ extern brain Brain;
 extern motor LeftFlyMotor;
 extern motor RightFlyMotor;
 extern controller Controller1;
-extern bumper BumperB;
+extern bumper StartPistonButton;
 extern digital_out LaunchPiston;
 extern rotation LeftFlyEncoder;
 extern rotation RightFlyEncoder;
+extern bumper StartFlyButton;
+extern bumper StartFlyEncoder;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

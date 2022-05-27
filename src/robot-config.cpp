@@ -11,10 +11,12 @@ brain  Brain;
 motor LeftFlyMotor = motor(PORT1, ratio18_1, true);
 motor RightFlyMotor = motor(PORT2, ratio18_1, false);
 controller Controller1 = controller(primary);
-bumper BumperB = bumper(Brain.ThreeWirePort.B);
+bumper StartPistonButton = bumper(Brain.ThreeWirePort.B);
 digital_out LaunchPiston = digital_out(Brain.ThreeWirePort.A);
 rotation LeftFlyEncoder = rotation(PORT3, true);
 rotation RightFlyEncoder = rotation(PORT4, true);
+bumper StartFlyButton = bumper(Brain.ThreeWirePort.C);
+bumper StartFlyEncoder = bumper(Brain.ThreeWirePort.D);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

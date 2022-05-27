@@ -13,10 +13,12 @@
 // LeftFlyMotor         motor         1               
 // RightFlyMotor        motor         2               
 // Controller1          controller                    
-// BumperB              bumper        B               
+// StartPistonButton    bumper        B               
 // LaunchPiston         digital_out   A               
 // LeftFlyEncoder       rotation      3               
 // RightFlyEncoder      rotation      4               
+// StartFlyButton       bumper        C               
+// StartFlyEncoder      bumper        D               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -36,40 +38,49 @@ void RPMValue(int repeatinterval){
      Time += repeatinterval;
 }
 void FlyControl(int leftflyrpm, int rightflyrpm){
-      if(BumperB.pressing()){
-      LaunchPiston.set(true);
-      wait(200,msec);
-      LaunchPiston.set(false);
-    }
-    if(Controller1.ButtonA.pressing()){
-      LeftFlyMotor.setVelocity(leftflyrpm, rpm);
-      RightFlyMotor.setVelocity(rightflyrpm, rpm);
-      LeftFlyMotor.spin(forward);
-      RightFlyMotor.spin(forward);
-    }
-    if(Controller1.ButtonB.pressing()){
-      LeftFlyMotor.stop();
-      RightFlyMotor.stop();
-      wait(5, sec);
-    }
+
+}
+void FlyStop(){
+  RightFlyMotor.stop(coast);
+  LeftFlyMotor.stop(coast);
 }
 int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
-
   vexcodeInit();
+  //Defined Variables
+  bool FlyToggle = false;
+  bool FlyLatch = false;
+  bool EncoderToggle = false;
+  bool EncoderLatch = false;
+  //Main Function Loop
   while(true){
-   FlyControl(200, 200); //Left RPM, Right RPM
-   int AverageFlyRPM = (AbsoluteRightFlySpeed + AbsoluteLeftFlySpeed) / 2;
-   if(AverageFlyRPM < 1){
-     Spinning = false;
+    if(StartFlyButton){
+      if(!FlyLatch){
+        FlyToggle = !FlyToggle;
+        FlyLatch = true;
+      }
+    }
+    else{
+      FlyLatch = false; 
+    }
+   if(FlyToggle == true){
+    FlyControl(200,200); //Left RPM, Right RPM
+  }
+   else{
+    FlyStop();
    }
-   else if(AverageFlyRPM > 1){
-     Spinning = true;
-   }
-   if(Spinning == true){
-    RPMValue(25); //In Milisecends
-   }
+  if(StartFlyEncoder){
+    if(!EncoderToggle){
+      EncoderToggle = !EncoderToggle;
+      EncoderLatch = true;
+    }
+    else {
+    EncoderLatch = false;
+    }
+    if(EncoderToggle == true){
+      RPMValue(25); //In Milisecends
+    }
   }
   
+   }
 }
-
